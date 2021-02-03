@@ -323,7 +323,13 @@ public class SpreadsheetPresentation extends AbstractPresentation implements IRe
                 case CURRENT:
                     if (curRow != null) {
                         GridPos curPos = spreadsheet.getCursorPosition();
-                        GridCell newCell = spreadsheet.posToCell(new GridPos(curPos.col, curRow.getVisualNumber()));
+                        GridCell newCell = null;
+                        try {
+                        	newCell = spreadsheet.posToCell(new GridPos(curPos.col, curRow.getVisualNumber()));
+                        }
+                        catch (ArrayIndexOutOfBoundsException e) {
+                        	log.warn("Error when trying to position to cell out of the grid", e);
+                        }
                         if (newCell != null) {
                             spreadsheet.setCursor(newCell, false, true);
                         }
